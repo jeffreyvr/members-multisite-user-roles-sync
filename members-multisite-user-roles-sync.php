@@ -38,13 +38,15 @@
      // sanitize roles
      $roles = array_map( 'members_sanitize_role', $roles );
 
+     // current blog id
+     $current_blog_id = get_current_blog_id();
+
      // get list of blogs user is member of
      $blogs = get_blogs_of_user( $user_id );
 
      if ( $all_sites === FALSE )
      {
        // remove current site from list
-       $current_blog_id = get_current_blog_id();
        unset( $blogs[$current_blog_id] );
      }
 
@@ -66,8 +68,8 @@
        }
    }
 
-   //switch back to orgininal blog
-   switch_to_blog( $current_blog_id );
+   // switch back to orgininal blog
+   switch_to_blog( $current_blog_id ); 
  }
 
  /**
