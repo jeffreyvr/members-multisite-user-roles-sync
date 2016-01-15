@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Members Multisite User Roles Sync ===
 Contributors: jeffreyvr, jekrikken
 Tags: multisite, members, roles, synchronize
 Requires at least: 4.3
