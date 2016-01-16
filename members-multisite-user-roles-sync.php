@@ -14,7 +14,7 @@
  	exit; // Exit if accessed directly.
  }
 
- if ( ! class_exists( 'Members_Mu_User_Roles_Sync' ) || ! class_exists( 'Members_Plugin' ) && is_multisite() ) :
+ if ( ! class_exists( 'Members_Mu_User_Roles_Sync' ) && is_multisite() ) :
 
  class Members_Mu_User_Roles_Sync
  {
@@ -23,7 +23,11 @@
     */
    public function __construct()
    {
-     add_action( 'profile_update', array( $this, 'profile_update'), 10, 1 );
+     // check if members plugin is active
+     if ( function_exists('members_plugin') )
+     {
+       add_action( 'profile_update', array( $this, 'profile_update'), 10, 1 );
+     }
    }
 
    /**
