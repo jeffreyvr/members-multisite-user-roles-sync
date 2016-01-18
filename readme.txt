@@ -17,7 +17,7 @@ This is a simple Multisite add-on for Justin Tadlock's Members plugin, which syn
 
 By installing this plugin we assume you use WordPress Multisite and have Justin Tadlock's Members plugin installed.
 
-1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress Multisite plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/members-multisite-user-roles-sync` directory, or install the plugin through the WordPress Multisite plugins screen directly.
 2. Network activate the plugin through the Multisite 'Plugins' screen in WordPress
 
 == Frequently Asked Questions ==
