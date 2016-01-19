@@ -23,8 +23,16 @@
     */
    public function __construct()
    {
+     add_action( 'admin_init', array( $this, 'init' ) );
+   }
+
+   /**
+    * Init
+    */
+   public function init()
+   {
      // check if members plugin is active
-     if ( function_exists('members_plugin') )
+     if ( is_plugin_active( 'members/members.php' ) )
      {
        add_action( 'profile_update', array( $this, 'profile_update'), 10, 1 );
      }
@@ -76,7 +84,7 @@
    }
 
    // switch back to orgininal blog
-   switch_to_blog( $current_blog_id ); 
+   switch_to_blog( $current_blog_id );
  }
 
  /**
