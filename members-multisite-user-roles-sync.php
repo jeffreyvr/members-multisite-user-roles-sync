@@ -39,7 +39,10 @@
     */
    public function add_role( $user_id, $roles = array(), $all_sites = FALSE )
    {
-     // sanitize roles
+     /*
+      * sanitize $roles with 'members_sanitize_role' function in members plugin
+      * @link https://github.com/justintadlock/members/blob/69f8c6007d3f6e3017ab4d8c8dc7f96845a88bff/inc/functions-roles.php#L250
+      */
      $roles = array_map( 'members_sanitize_role', $roles );
 
      // current blog id
@@ -83,9 +86,16 @@
   */
  public function profile_update( $user_id )
  {
-   if ( isset( $_POST['members_user_roles'] ) )
+   if ( isset( $_POST['members_user_roles'] ) ) // data should not be empty
    {
-    $this->add_role( $user_id, $_POST['members_user_roles'], false );
+     if ( is_array( $_POST['members_user_roles'] ) ) // data should be an array
+     {
+       /*
+        * now that we know the posted data is an array we can execute the 'add_role' function
+        * the data will be sanitized in the 'add_role' function
+        */
+        $this->add_role( $user_id, $_POST['members_user_roles'], false );
+     }
    }
  }
 }
