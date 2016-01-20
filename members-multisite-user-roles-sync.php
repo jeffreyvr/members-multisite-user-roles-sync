@@ -47,11 +47,8 @@
     */
    public function add_role( $user_id, $roles = array(), $all_sites = FALSE )
    {
-     /*
-      * sanitize $roles with 'members_sanitize_role' function in members plugin
-      * @link https://github.com/justintadlock/members/blob/69f8c6007d3f6e3017ab4d8c8dc7f96845a88bff/inc/functions-roles.php#L250
-      */
-     $roles = array_map( 'members_sanitize_role', $roles );
+     // sanitize roles
+     $roles = array_map( array( $this, 'sanitize_role' ), $_POST['members_user_roles'] );
 
      // current blog id
      $current_blog_id = get_current_blog_id();
@@ -98,13 +95,26 @@
    {
      if ( is_array( $_POST['members_user_roles'] ) ) // data should be an array
      {
-       /*
-        * now that we know the posted data is an array we can execute the 'add_role' function
-        * the data will be sanitized in the 'add_role' function
-        */
-        $this->add_role( $user_id, $_POST['members_user_roles'], false );
+        // sanitize roles
+        $roles = array_map( array( $this, 'sanitize_role' ), $_POST['members_user_roles'] );
+
+        // add roles
+        $this->add_role( $user_id, $roles, false );
      }
    }
+ }
+
+ /**
+  * Sanitize role
+  * @param  string $role
+  * @return int
+  * @link https://github.com/justintadlock/members/blob/69f8c6007d3f6e3017ab4d8c8dc7f96845a88bff/inc/functions-roles.php#L250
+  */
+ public function sanitize_role( $role )
+ {
+   $_role = strtolower( $role );
+	 $_role = preg_replace( '/[^a-z0-9_\-\s]/', '', $_role );
+	 return apply_filters( 'sanitize_role', str_replace( ' ', '_', $_role ), $role );
  }
 }
 
