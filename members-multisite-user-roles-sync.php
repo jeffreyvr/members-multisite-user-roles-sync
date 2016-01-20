@@ -113,8 +113,8 @@
  public function sanitize_role( $role )
  {
    $_role = strtolower( $role );
-	 $_role = preg_replace( '/[^a-z0-9_\-\s]/', '', $_role );
-	 return apply_filters( 'sanitize_role', str_replace( ' ', '_', $_role ), $role );
+   $_role = preg_replace( '/[^a-z0-9_\-\s]/', '', $_role );
+   return apply_filters( 'sanitize_role', str_replace( ' ', '_', $_role ), $role );
  }
 }
 
