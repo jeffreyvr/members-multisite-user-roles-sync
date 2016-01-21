@@ -50,38 +50,45 @@
      // sanitize roles
      $roles = array_map( array( $this, 'sanitize_role' ), $_POST['members_user_roles'] );
 
-     // current blog id
-     $current_blog_id = get_current_blog_id();
+     // make sure that the roles are editable
+     $roles = $this->get_editable_roles( $roles );
 
-     // get list of blogs user is member of
-     $blogs = get_blogs_of_user( $user_id );
+     if ( ! empty( $roles ) ) {
 
-     if ( $all_sites === FALSE )
-     {
-       // remove current site from list
-       unset( $blogs[$current_blog_id] );
+       // current blog id
+       $current_blog_id = get_current_blog_id();
+
+       // get list of blogs user is member of
+       $blogs = get_blogs_of_user( $user_id );
+
+       if ( $all_sites === FALSE )
+       {
+         // remove current site from list
+         unset( $blogs[$current_blog_id] );
+       }
+
+       // loop through blogs
+       foreach ( $blogs as $blog ) {
+         // switch to blog
+         switch_to_blog( $blog->userblog_id );
+
+         // get user info
+         $site_user = get_user_by( 'id', $user_id );
+
+         // remove roles
+         $site_user->remove_role( '' );
+
+         // loop through roles
+         foreach ( $roles as $role ) {
+           // add role
+           $site_user->add_role( $role );
+         }
      }
 
-     // loop through blogs
-     foreach ( $blogs as $blog ) {
-       // switch to blog
-       switch_to_blog( $blog->userblog_id );
+     // switch back to orgininal blog
+     switch_to_blog( $current_blog_id );
 
-       // get user info
-       $site_user = get_user_by( 'id', $user_id );
-
-       // remove roles
-       $site_user->remove_role( '' );
-
-       // loop through roles
-       foreach ( $roles as $role ) {
-         // add role
-         $site_user->add_role( $role );
-       }
    }
-
-   // switch back to orgininal blog
-   switch_to_blog( $current_blog_id );
  }
 
  /**
@@ -105,6 +112,26 @@
  }
 
  /**
+  * Get editable roles
+  * @param  array  $roles
+  * @return array
+  */
+ public function get_editable_roles( $roles = array() )
+ {
+  $result = array();
+
+  $editable_roles = get_editable_roles();
+
+  foreach ( $editable_roles as $role_name => $role ) {
+    if ( in_array( $role_name, $roles ) ) {
+      $result[] = $role_name;
+    }
+  }
+
+  return $result;
+ }
+
+ /**
   * Sanitize role
   * @param  string $role
   * @return int
@@ -113,8 +140,8 @@
  public function sanitize_role( $role )
  {
    $_role = strtolower( $role );
-   $_role = preg_replace( '/[^a-z0-9_\-\s]/', '', $_role );
-   return apply_filters( 'sanitize_role', str_replace( ' ', '_', $_role ), $role );
+	 $_role = preg_replace( '/[^a-z0-9_\-\s]/', '', $_role );
+	 return apply_filters( 'sanitize_role', str_replace( ' ', '_', $_role ), $role );
  }
 }
 
