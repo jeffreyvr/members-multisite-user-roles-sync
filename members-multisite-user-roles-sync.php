@@ -48,7 +48,7 @@
    public function add_role( $user_id, $roles = array(), $all_sites = FALSE )
    {
      // sanitize roles
-     $roles = array_map( array( $this, 'sanitize_role' ), $_POST['members_user_roles'] );
+     $roles = array_map( array( $this, 'sanitize_role' ), $roles );
 
      // make sure that the roles are editable
      $roles = $this->get_editable_roles( $roles );

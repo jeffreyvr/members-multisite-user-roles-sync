@@ -31,7 +31,7 @@ There is none. You simply activate it and it will work right away.
 Yes, there is. See this example code:
 
 `<?php
-$members_mu_user_roles_sync = Members_Mu_User_Roles_Sync();
+$members_mu_user_roles_sync = new Members_Mu_User_Roles_Sync();
 $members_mu_user_roles_sync->add_role(
   $user_id, // user you want to add role to
   $roles = array(), // input array is needed
