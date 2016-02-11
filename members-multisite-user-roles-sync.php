@@ -6,7 +6,7 @@
  * Author: jeffreyvr
  * Author URI: https://profiles.wordpress.org/jeffreyvr/
  *
- * Version: 0.0.1
+ * Version: 0.0.2
  * License: GPLv2 or later
  */
  if ( ! defined( 'ABSPATH' ) )
@@ -51,6 +51,10 @@
      $roles = array_map( array( $this, 'sanitize_role' ), $roles );
 
      // make sure that the roles are editable
+     if ( ! function_exists( 'get_editable_roles' ) ) {
+       require_once( ABSPATH . '/wp-admin/includes/user.php' );
+     }
+
      $roles = $this->get_editable_roles( $roles );
 
      if ( ! empty( $roles ) ) {
@@ -76,13 +80,17 @@
          $site_user = get_user_by( 'id', $user_id );
 
          // remove roles
-         $site_user->remove_role( '' );
+        if ( ! empty( $site_user->roles ) ) {
+            foreach ( $site_user->roles as $role ) {
+               $site_user->remove_role( $role );
+            }
+        }
 
-         // loop through roles
-         foreach ( $roles as $role ) {
-           // add role
-           $site_user->add_role( $role );
-         }
+        // loop through roles
+        foreach ( $roles as $role ) {
+          // add role
+          $site_user->add_role( $role );
+        }
      }
 
      // switch back to orgininal blog

@@ -3,7 +3,7 @@ Contributors: jeffreyvr, jekrikken
 Tags: multisite, members, roles, synchronize
 Requires at least: 4.3
 Tested up to: 4.4.1
-Stable tag: trunk
+Stable tag: 0.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ By installing this plugin we assume you use WordPress Multisite and have Justin 
 
 There is none. You simply activate it and it will work right away.
 
-= Is there a function to add a role to a user programmaticly? =
+= Is there a function to add a role to a user programmatically? =
 
 Yes, there is. See this example code:
 
@@ -47,3 +47,7 @@ $members_mu_user_roles_sync->add_role(
 
 = 0.0.1 =
 * Init release.
+
+= 0.0.2 =
+* Fix: User roles were not syncing to other sites when removing roles. (jeffreylasut)
+* Enhancement: Make sure function get_editable_roles exists.
